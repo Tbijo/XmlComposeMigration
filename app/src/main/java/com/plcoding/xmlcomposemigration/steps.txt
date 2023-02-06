@@ -1,0 +1,8 @@
+Update app and project level gradle build file.
+
+Next Step is to look at our screens.
+We can migrate a whole screen it takes time to migrate but after neither Fragment and Layout is needed.
+
+Migrate XML layout to Composable used in Fragment - FirstFragment
+
+Migrate parts of the UI using ComposeView (its a view for composable content). - SecondFragment

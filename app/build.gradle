@@ -5,16 +5,27 @@ plugins {
 
 android {
     namespace 'com.plcoding.xmlcomposemigration'
-    compileSdk 32
+    compileSdk 33 // change from 32 to 33 for compose compiler
 
     defaultConfig {
         applicationId "com.plcoding.xmlcomposemigration"
         minSdk 21
-        targetSdk 32
+        targetSdk 33 // change from 32 to 33 for compose compiler
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures { // a config block
+        compose true // enable compose for this project
+    }
+
+    composeOptions {
+        // necessary to set up kotlin compose compiler
+        // according to dependency androidx.compose.compiler:compiler:1.3.2
+        // version number is important
+        kotlinCompilerExtensionVersion "1.3.2"
     }
 
     buildTypes {
@@ -36,7 +47,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
@@ -46,4 +56,11 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Add standard dependencies for Compose
+    implementation "androidx.compose.material:material:1.3.0-rc01"
+    implementation "androidx.compose.compiler:compiler:1.3.2"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.3.0-rc01"
+    implementation 'androidx.activity:activity-compose:1.6.0'
+    debugImplementation "androidx.compose.ui:ui-tooling:1.3.0-rc01"
 }

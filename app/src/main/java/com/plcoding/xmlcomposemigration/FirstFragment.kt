@@ -1,44 +1,51 @@
 package com.plcoding.xmlcomposemigration
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.plcoding.xmlcomposemigration.databinding.FragmentFirstBinding
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private lateinit var composeView: ComposeView
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private val viewModel: FirstViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
-        return binding.root
+        return ComposeView(requireContext()).also {
+            // initialize our composeView with this ComposeView
+            composeView = it
+        }
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        // setting content to our compose view
+        composeView.setContent {
+            val state by viewModel.state.collectAsState()
+            FirstScreen(
+                state = state,
+                onNextClick = {
+                    findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+                }
+            )
         }
+        // now delete XML layout and remove tools:layout from Navigation Graph
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
